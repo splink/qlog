@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<properties>
+	<ip>127.0.0.1</ip>
+	<port>6666</port>
+	<window>
+		<width>600</width>
+		<height>300</height>
+	</window>
+</properties>

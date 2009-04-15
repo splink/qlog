@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: qLog Plug-in
+Bundle-SymbolicName: com.quui.qlog.plugin; singleton:=true
+Bundle-Version: 1.0.5
+Bundle-Activator: com.quui.qlog.plugin.Activator
+Bundle-Vendor: quui.com
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ com.quui.qlog.branch;bundle-version="1.0.2"
+Eclipse-LazyStart: true

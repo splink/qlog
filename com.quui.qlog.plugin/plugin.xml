@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+
+   <extension
+         point="org.eclipse.ui.views">
+      <category
+            name="Logging"
+            id="com.quui.qlog.plugin">
+      </category>
+      <view
+            name="qLog"
+            icon="icons/category.gif"
+            category="com.quui.qlog.plugin"
+            class="com.quui.qlog.plugin.views.QLogView"
+            id="com.quui.qlog.plugin.views.QLogView">
+      </view>
+   </extension>
+   <extension
+         point="org.eclipse.ui.perspectiveExtensions">
+      <perspectiveExtension
+            targetID="org.eclipse.ui.resourcePerspective">
+         <view
+               ratio="0.5"
+               relative="org.eclipse.ui.views.TaskList"
+               relationship="right"
+               id="com.quui.qlog.plugin.views.QLogView">
+         </view>
+      </perspectiveExtension>
+   </extension>
+
+</plugin>
