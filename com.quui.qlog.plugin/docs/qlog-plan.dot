@@ -1,0 +1,19 @@
+digraph qlog{
+	rankdir=LR
+	node[shape=box width=1]
+	server[label="Server"]
+	logic[label="Application\nLogic"]
+	swt[label="SWT GUI"]
+	plugin[label="Eclipse\nPlugin"]
+	standalone[label="Standalone\nSWT App"]
+	subgraph cluster_0{
+	label="Backend"
+	server->logic[arrowhead=none]
+	}
+	subgraph cluster_1{
+	label="Frontend"
+	logic->swt[arrowhead=none style=dashed]
+	swt->plugin[label="Ant"]
+	swt->standalone
+	}
+}
