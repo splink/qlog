@@ -18,10 +18,10 @@ public class Client extends Thread implements IClient {
 	private PrintWriter _output;
 	private String _id;
 	private long _connectionTime;
-	protected IClientDataHandler _handler;
+	protected IDataTransformer _handler;
 	protected Server _server;
 
-	public Client(Server server, Socket socket, IClientDataHandler handler, String id,
+	public Client(Server server, Socket socket, IDataTransformer handler, String id,
 			long connectionTime) {
 		_server = server;
 		_id = id;

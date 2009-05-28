@@ -14,9 +14,9 @@ public class Server implements Runnable {
 	private ServerSocket _server;
 	private Vector<Client> _clients = new Vector<Client>();
 	private int _clientCount = 0;
-	private IClientDataHandlerFactory _factory;
+	private IDataTransformerFactory _factory;
 
-	public Server(String ip, int port, IClientDataHandlerFactory factory) throws BindException {
+	public Server(String ip, int port, IDataTransformerFactory factory) throws BindException {
 		_factory = factory;
 		startServer(ip, port);
 	}
