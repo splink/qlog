@@ -15,31 +15,25 @@ import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.part.ViewPart;
 
 import com.quui.qlog.plugin.Activator;
-import com.quui.qlog.swing.data.QLogDataTransformerFactory;
 import com.quui.qlog.swing.gui.Filter;
 import com.quui.qlog.swing.gui.TableBuilder;
 import com.quui.qlog.swing.properties.PropertiesReader;
 import com.quui.server.Server;
-import com.quui.utils.event.IDistributor;
-import com.quui.utils.event.IEvent;
-import com.quui.utils.event.IListener;
 
 /**
  * View to display QLog logging messages.
- * @author fsteeg
+ * @author Fabian Steeg
  */
-public class QLogView extends ViewPart implements IListener {
-    private static final String CHANGE = "document.getElementById(\"content\").innerHTML =";
-    protected static final String BODY = "";// overflow:hidden;
-    final String SCRIPT_SCROLL = "window.scrollTo(0,100000);";
+public final class QLogView extends ViewPart {
+    private static final String SCRIPT_SCROLL = "window.scrollTo(0,100000);";
     private Action clearAction;
     private Action filterAction;
     private TableBuilder tableBuilder;
     private Browser browser = null;
     private PropertiesReader reader;
-    private String allHTML = "";
+    private String allHtml = "";
     private Server server;
-    protected String filter;
+    private String filter;
     private Action restartAction;
     private boolean locked;
 
@@ -53,93 +47,104 @@ public class QLogView extends ViewPart implements IListener {
     }
 
     /**
-     * {@inheritDoc}
-     * @see org.eclipse.ui.part.WorkbenchPart#createPartControl(org.eclipse.swt.widgets.Composite)
+     * Clears the current log output.
      */
-    public void createPartControl(Composite parent) {
-        makeActions();
-        contributeToActionBars();
-        browser = new Browser(parent, SWT.MOZILLA);
-        tableBuilder = new TableBuilder();
-        startServer();
+    void clear() {
+        tableBuilder.clear();
+        setHtml(tableBuilder.getCss() + tableBuilder.getContent());
+
+    }
+
+    /**
+     * Update the log output with new input.
+     * @param message The incoming message
+     * @param color The color
+     */
+    void update(final String message, final String color) {
+        String messageCopy = message.replace(" ", "&nbsp;");
+        final String newMsg = tableBuilder.buildHTML(color, messageCopy);
+        String allHtmlCopy = allHtml;
+        allHtmlCopy += newMsg;
+        final String newHTML = allHtmlCopy;
+        if (newMsg == null) {
+            return;
+        }
+        setHtml(newHTML);
     }
 
     private void startServer() {
         String color = "white";
         try {
-            if (server != null) {
-                server.destroy();
-            }
-            server = new Server(reader.getIp(), reader.getPort(),
-                    new QLogDataTransformerFactory());
-            allHTML += tableBuilder.buildHTML(color, "Started server at: "
+            createServer();
+            allHtml += tableBuilder.buildHTML(color, "Started server at: "
                     + reader.getIp() + ":" + reader.getPort());
-            // TableBuilder.tableWith("Started server at: "
-            // + reader.getIp() + ":" + reader.getPort(), color);
         } catch (BindException e) {
             e.printStackTrace();
-            allHTML += tableBuilder.buildHTML(color,
+            allHtml += tableBuilder.buildHTML(color,
                     "Could not start the server: " + e.getMessage());
         } finally {
-            browser.setText(allHTML);
-            scrollDown();
+            setHtml(allHtml);
         }
     }
 
-    void restartServer() {
-        String color = "white";
+    private void createServer() throws BindException {
+        if (server != null) {
+            server.destroy();
+        }
+        server = new Server(reader.getIp(), reader.getPort(),
+                new EclipseDataTransformerFactory(new EclipseMediator(this)));
+    }
+
+    private void restartServer() {
         try {
-            if (server != null) {
-                server.destroy();
-            }
-            server = new Server(reader.getIp(), reader.getPort(),
-                    new QLogDataTransformerFactory());
-            allHTML += "Restarted server at: " + reader.getIp() + ":"
+            createServer();
+            allHtml += "Restarted server at: " + reader.getIp() + ":"
                     + reader.getPort();
         } catch (BindException e) {
             e.printStackTrace();
-            allHTML += "Could not restart the server: " + e.getMessage();
+            allHtml += "Could not restart the server: " + e.getMessage();
         } finally {
-            allHTML += "<br/>";
-            setInnerHtml(allHTML);
+            allHtml += "<br/>";
+            setHtml(allHtml);
         }
     }
 
-    /**
-     * Adds actions to menu and tool bar.
-     */
-    private void contributeToActionBars() {
-        IActionBars bars = getViewSite().getActionBars();
-        fillLocalPullDown(bars.getMenuManager());
-        fillLocalToolBar(bars.getToolBarManager());
+    private void setHtml(final String newHtml) {
+        allHtml = newHtml;
+        Display.getDefault().asyncExec(new Runnable() {
+            public void run() {
+                browser.setText(newHtml);
+                /*
+                 * This seemed to be a better solution (avoided the flickering
+                 * when scrolling), but currently does not work for me at all.
+                 */
+                // String content = newHtml.replaceAll("'", "\\\\'");
+                // browser.execute("document.getElementById(\"content\").innerHTML ="
+                // + " '" + content + "'");
+                scrollDown();
+            }
+        });
     }
 
     /**
-     * @param manager The manager to be filled with actions for the menu
+     * {@inheritDoc}
+     * @see org.eclipse.ui.part.WorkbenchPart#createPartControl(org.eclipse.swt.widgets.Composite)
      */
-    private void fillLocalPullDown(IMenuManager manager) {
-        manager.add(filterAction);
-        manager.add(clearAction);
-        manager.add(new Separator());
-        manager.add(restartAction);
-    }
-
-    /**
-     * @param manager The manager to be filled with actions for the tool bar
-     */
-    private void fillLocalToolBar(IToolBarManager manager) {
-        manager.add(filterAction);
-        manager.add(clearAction);
-        manager.add(new Separator());
-        manager.add(restartAction);
+    public void createPartControl(final Composite parent) {
+        makeActions();
+        contributeToActionBars();
+        browser = new Browser(parent, SWT.MOZILLA);
+        tableBuilder = new TableBuilder();
+        allHtml = tableBuilder.getCss() + allHtml;
+        startServer();
     }
 
     private void makeActions() {
         clearAction = new Action() {
             public void run() {
                 tableBuilder.clear();
-                allHTML = "";
-                browser.setText(allHTML + tableBuilder.buildHTML("", "white"));
+                allHtml = tableBuilder.getCss() + "";
+                browser.setText(allHtml + tableBuilder.buildHTML("", "white"));
                 scrollDown();
             }
         };
@@ -163,8 +168,8 @@ public class QLogView extends ViewPart implements IListener {
                 d.open();
                 filter = d.getValue();
                 String matches = Filter.find(filter, tableBuilder);
-                allHTML = matches;
-                browser.setText(allHTML);
+                allHtml = matches;
+                browser.setText(allHtml);
                 scrollDown();
             }
         };
@@ -175,40 +180,52 @@ public class QLogView extends ViewPart implements IListener {
     }
 
     /**
-     * @param content The content for the browser
+     * Adds actions to menu and tool bar.
      */
-    private void setInnerHtml(String content) {
-        content = content.replaceAll("'", "\\\\'");
-        browser.execute(CHANGE + " '" + content + "'");
-        scrollDown();
+    private void contributeToActionBars() {
+        IActionBars bars = getViewSite().getActionBars();
+        fillLocalPullDown(bars.getMenuManager());
+        fillLocalToolBar(bars.getToolBarManager());
+    }
+
+    /**
+     * @param manager The manager to be filled with actions for the menu
+     */
+    private void fillLocalPullDown(final IMenuManager manager) {
+        manager.add(filterAction);
+        manager.add(clearAction);
+        manager.add(new Separator());
+        manager.add(restartAction);
+    }
+
+    /**
+     * @param manager The manager to be filled with actions for the tool bar
+     */
+    private void fillLocalToolBar(final IToolBarManager manager) {
+        manager.add(filterAction);
+        manager.add(clearAction);
+        manager.add(new Separator());
+        manager.add(restartAction);
     }
 
     /**
      * {@inheritDoc}
-     * @see de.quui.qlog.IInvoker#incomingCommand(java.lang.String)
+     * @see org.eclipse.ui.part.WorkbenchPart#dispose()
      */
-    public void incomingCommand(String command) {
-        if (command.equals("clear")) {
-            tableBuilder.clear();
-            set(tableBuilder.getContent());
+    @Override
+    public void dispose() {
+        if (server != null) {
+            server.destroy();
         }
+        super.dispose();
     }
 
     /**
      * {@inheritDoc}
-     * @see de.quui.qlog.IInvoker#incomingMessage(java.lang.String,
-     *      java.lang.String)
+     * @see org.eclipse.ui.part.WorkbenchPart#setFocus()
      */
-    public void incomingMessage(String color, String message) {
-        message = message.replace(" ", "&nbsp;");
-        final String newMsg = tableBuilder.buildHTML(color, message);
-        allHTML += newMsg;
-        final String newHTML = allHTML;
-        if (newMsg == null) {
-            return;
-        }
-        set(newHTML);
-    }
+    @Override
+    public void setFocus() {}
 
     /**
      * Scrolls the browser widget down using JavaScript.
@@ -221,37 +238,5 @@ public class QLogView extends ViewPart implements IListener {
                 }
             });
         }
-    }
-
-    /**
-     * @param newHTML The new html to display in the browser
-     */
-    private void set(final String newHTML) {
-        Display.getDefault().asyncExec(new Runnable() {
-            public void run() {
-                System.out.println("Setting: " + newHTML);
-                setInnerHtml(newHTML);
-            }
-        });
-    }
-
-    @Override
-    public void dispose() {
-        if (server != null) {
-            server.destroy();
-        }
-        super.dispose();
-    }
-
-    @Override
-    public void setFocus() {}
-
-    @Override
-    public void onEvent(IEvent event, IListener listener) {
-        String type = event.getType();
-        IDistributor source = event.getSource();
-        System.out.println(String.format(
-                "Recieved event type %s from distributor %s", type, source));
-
     }
 }
