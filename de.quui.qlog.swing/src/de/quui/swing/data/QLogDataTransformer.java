@@ -11,15 +11,15 @@ import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
 
 import de.quui.server.IClient;
-import de.quui.server.IClientDataHandler;
+import de.quui.server.IDataTransformer;
 
-public class QLogClientDataHandler implements IClientDataHandler {
+public class QLogDataTransformer implements IDataTransformer {
 	private DocumentBuilder _builder;
 	private boolean _isLoggedIn = false;
 	private IClient _client;
 	private IGuiMediator _mediator;
 
-	public QLogClientDataHandler(IGuiMediator mediator) {
+	public QLogDataTransformer(IGuiMediator mediator) {
 		_mediator = mediator;
 
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -29,16 +29,19 @@ public class QLogClientDataHandler implements IClientDataHandler {
 			e.printStackTrace();
 		}
 	}
-
+	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void setClient(IClient client) {
 		_client = client;
 	}
 
 	/**
-	 * Expected data: <log><color>#ff00ff</color><msg>Some msg</msg></log>
+	 * {@inheritDoc}
 	 * 
-	 * @param data
+	 * Expected data: <log><color>#ff00ff</color><msg>Some log msg</msg></log>
 	 */
 	@Override
 	public void onData(String data) {
@@ -112,9 +115,9 @@ public class QLogClientDataHandler implements IClientDataHandler {
 	}
 
 	/**
-	 * Expected data: <login><name>Some name</name></login>
+	 * {@inheritDoc}
 	 * 
-	 * @param data
+	 * Expected data: <login><name>Some name</name></login>
 	 */
 	private void handleLogin(String data) {
 		String name = "default";
@@ -125,11 +128,14 @@ public class QLogClientDataHandler implements IClientDataHandler {
 			System.out.println(e.getMessage() + "\r" + e.getStackTrace());
 		}
 		
-		_mediator.setClientDataHandler(this);
+		_mediator.setDataTransformer(this);
 		_mediator.onLogin(name);
 		_isLoggedIn = true;
 	}
-
+	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void destroy() {
 		_client.destroy();

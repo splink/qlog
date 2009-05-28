@@ -13,7 +13,7 @@ import org.apache.log4j.Logger;
 import org.apache.log4j.SimpleLayout;
 
 import de.quui.server.Server;
-import de.quui.swing.data.QLogClientDataHandlerFactory;
+import de.quui.swing.data.QLogDataTransformerFactory;
 import de.quui.swing.gui.Window;
 import de.quui.swing.gui.popup.FontSizePopUp;
 import de.quui.swing.gui.popup.MessagePane;
@@ -52,7 +52,7 @@ public class Application {
 		FontSizePopUp.setFontSize(reader.getFontSize());
 
 		try {
-			new Server(reader.getIp(), reader.getPort(), new QLogClientDataHandlerFactory());
+			new Server(reader.getIp(), reader.getPort(), new QLogDataTransformerFactory());
 		} catch (BindException e) {
 			MessagePane.createSocketErrorDialog(win, reader.getPort());
 			System.exit(0);
