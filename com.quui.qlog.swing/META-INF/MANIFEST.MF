@@ -1,0 +1,16 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Swing
+Bundle-SymbolicName: com.quui.qlog.swing
+Bundle-Version: 0.0.0
+Bundle-ClassPath: swing.jar,
+ dependencies/jdom.jar,
+ dependencies/log4j-1.2.15.jar
+Export-Package: com.quui.qlog.swing,
+ com.quui.qlog.swing.data,
+ com.quui.qlog.swing.gui,
+ com.quui.qlog.swing.gui.popup,
+ com.quui.qlog.swing.gui.tab,
+ com.quui.qlog.swing.properties
+Require-Bundle: com.quui.server;bundle-version="0.0.0",
+ com.quui.utils;bundle-version="0.0.0"

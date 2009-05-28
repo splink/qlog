@@ -1,0 +1,8 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Quui Server
+Bundle-SymbolicName: com.quui.server
+Bundle-Version: 0.0.0
+Export-Package: com.quui.server
+Bundle-Vendor: Quui Software
+Require-Bundle: com.quui.utils;bundle-version="0.0.0"
