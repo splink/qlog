@@ -15,9 +15,9 @@ import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.part.ViewPart;
 
 import com.quui.qlog.plugin.Activator;
-import com.quui.qlog.swing.gui.Filter;
-import com.quui.qlog.swing.gui.TableBuilder;
-import com.quui.qlog.swing.properties.PropertiesReader;
+import com.quui.qlog.ui.Filter;
+import com.quui.qlog.ui.PropertiesReader;
+import com.quui.qlog.ui.TableBuilder;
 import com.quui.server.Server;
 
 /**
@@ -134,7 +134,7 @@ public final class QLogView extends ViewPart {
         makeActions();
         contributeToActionBars();
         browser = new Browser(parent, SWT.MOZILLA);
-        tableBuilder = new TableBuilder();
+        tableBuilder = new TableBuilder(12);
         allHtml = tableBuilder.getCss() + allHtml;
         startServer();
     }

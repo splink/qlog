@@ -8,6 +8,6 @@ Bundle-Vendor: Quui Software
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  com.quui.server;bundle-version="0.0.0",
- com.quui.qlog.swing,
- com.quui.utils;bundle-version="0.0.0"
+ com.quui.utils;bundle-version="0.0.0",
+ com.quui.qlog.ui;bundle-version="0.0.0"
 Eclipse-LazyStart: true

@@ -22,7 +22,7 @@ import com.quui.qlog.swing.gui.tab.ITab;
 import com.quui.qlog.swing.gui.tab.Tab;
 import com.quui.qlog.swing.gui.tab.TabController;
 import com.quui.qlog.swing.gui.tab.TabControllerEvent;
-import com.quui.qlog.swing.properties.PropertiesReader;
+import com.quui.qlog.ui.PropertiesReader;
 import com.quui.utils.event.IEvent;
 import com.quui.utils.event.IListener;
 

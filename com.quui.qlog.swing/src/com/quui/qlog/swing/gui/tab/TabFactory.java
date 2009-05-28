@@ -1,7 +1,7 @@
 package com.quui.qlog.swing.gui.tab;
 
 import com.quui.qlog.swing.gui.Window;
-import com.quui.qlog.swing.properties.PropertiesReader;
+import com.quui.qlog.ui.PropertiesReader;
 import com.quui.utils.util.IDestroyable;
 
 

@@ -17,8 +17,8 @@ import com.quui.qlog.swing.gui.Window;
 import com.quui.qlog.swing.gui.popup.FontSizePopUp;
 import com.quui.qlog.swing.gui.popup.MessagePane;
 import com.quui.qlog.swing.gui.tab.TabFactory;
-import com.quui.qlog.swing.properties.PropertiesReader;
 import com.quui.qlog.swing.properties.PropertiesSaver;
+import com.quui.qlog.ui.PropertiesReader;
 import com.quui.server.Server;
 import com.quui.utils.log4j.QLogSocketAppender;
 

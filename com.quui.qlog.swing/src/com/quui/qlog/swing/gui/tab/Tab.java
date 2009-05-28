@@ -10,10 +10,11 @@ import javax.swing.JScrollPane;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.html.HTMLEditorKit;
 
-import com.quui.qlog.swing.gui.Filter;
-import com.quui.qlog.swing.gui.TableBuilder;
 import com.quui.qlog.swing.gui.Window;
-import com.quui.qlog.swing.properties.PropertiesReader;
+import com.quui.qlog.swing.gui.popup.FontSizePopUp;
+import com.quui.qlog.ui.Filter;
+import com.quui.qlog.ui.PropertiesReader;
+import com.quui.qlog.ui.TableBuilder;
 import com.quui.utils.util.IDestroyable;
 
 
@@ -32,7 +33,7 @@ public class Tab implements ITab {
 		_scrollLock = reader.getScrollLock();
 		_name = name;
 		_client = client;
-		_tableBuilder = new TableBuilder();
+		_tableBuilder = new TableBuilder(FontSizePopUp.getFontSize());
 		_scrollPane = createTabContent();
 		getEditorPane().setText(_tableBuilder.getContent());
 		_window.addTab(this);

@@ -5,7 +5,9 @@ Bundle-SymbolicName: com.quui.utils
 Bundle-Version: 0.0.0
 Bundle-ClassPath: dependencies/log4j-1.2.15.jar,
  dependencies/jdom.jar,
- utils.jar
+ utils.jar,
+ dependencies/commons-lang-2.4.jar,
+ dependencies/junit-4.6.jar
 Export-Package: 
  .,
  com.quui.utils.event,

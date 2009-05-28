@@ -2,7 +2,7 @@ package com.quui.qlog.plugin.views;
 
 import org.w3c.dom.Document;
 
-import com.quui.qlog.swing.data.IGuiMediator;
+import com.quui.qlog.ui.data.IGuiMediator;
 import com.quui.utils.util.IDestroyable;
 
 /**

@@ -1,5 +1,6 @@
 package com.quui.qlog.swing.data;
 
+import com.quui.qlog.ui.data.QLogDataTransformer;
 import com.quui.server.IDataTransformer;
 import com.quui.server.IDataTransformerFactory;
 
