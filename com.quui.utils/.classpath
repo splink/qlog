@@ -5,5 +5,7 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry exported="true" kind="lib" path="dependencies/log4j-1.2.15.jar" sourcepath="com.quui.utilssrc.zip"/>
 	<classpathentry exported="true" kind="lib" path="dependencies/jdom.jar" sourcepath="com.quui.utilssrc.zip"/>
+	<classpathentry kind="lib" path="dependencies/commons-lang-2.4.jar" sourcepath="dependencies/commons-lang-2.4-sources.jar"/>
+	<classpathentry kind="lib" path="dependencies/junit-4.6.jar" sourcepath="dependencies/junit-4.6-src.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
