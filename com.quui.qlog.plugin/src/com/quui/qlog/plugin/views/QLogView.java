@@ -15,18 +15,20 @@ import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.part.ViewPart;
 
 import com.quui.qlog.plugin.Activator;
-
-import de.quui.qlog.Filter;
-import de.quui.qlog.IInvoker;
-import de.quui.qlog.PropertiesReader;
-import de.quui.qlog.Server;
-import de.quui.qlog.TableBuilder;
+import com.quui.qlog.swing.data.QLogDataTransformerFactory;
+import com.quui.qlog.swing.gui.Filter;
+import com.quui.qlog.swing.gui.TableBuilder;
+import com.quui.qlog.swing.properties.PropertiesReader;
+import com.quui.server.Server;
+import com.quui.utils.event.IDistributor;
+import com.quui.utils.event.IEvent;
+import com.quui.utils.event.IListener;
 
 /**
  * View to display QLog logging messages.
  * @author fsteeg
  */
-public class QLogView extends ViewPart implements IInvoker {
+public class QLogView extends ViewPart implements IListener {
     private static final String CHANGE = "document.getElementById(\"content\").innerHTML =";
     protected static final String BODY = "";// overflow:hidden;
     final String SCRIPT_SCROLL = "window.scrollTo(0,100000);";
@@ -58,7 +60,7 @@ public class QLogView extends ViewPart implements IInvoker {
         makeActions();
         contributeToActionBars();
         browser = new Browser(parent, SWT.MOZILLA);
-        tableBuilder = new TableBuilder("");
+        tableBuilder = new TableBuilder();
         startServer();
     }
 
@@ -66,15 +68,18 @@ public class QLogView extends ViewPart implements IInvoker {
         String color = "white";
         try {
             if (server != null) {
-                server.close();
+                server.destroy();
             }
-            server = new Server(this, reader.getIp(), reader.getPort());
-            allHTML += TableBuilder.tableWith("Started server at: "
-                    + reader.getIp() + ":" + reader.getPort(), color);
+            server = new Server(reader.getIp(), reader.getPort(),
+                    new QLogDataTransformerFactory());
+            allHTML += tableBuilder.buildHTML(color, "Started server at: "
+                    + reader.getIp() + ":" + reader.getPort());
+            // TableBuilder.tableWith("Started server at: "
+            // + reader.getIp() + ":" + reader.getPort(), color);
         } catch (BindException e) {
             e.printStackTrace();
-            allHTML += TableBuilder.tableWith("Could not start the server: "
-                    + e.getMessage(), color);
+            allHTML += tableBuilder.buildHTML(color,
+                    "Could not start the server: " + e.getMessage());
         } finally {
             browser.setText(allHTML);
             scrollDown();
@@ -85,16 +90,17 @@ public class QLogView extends ViewPart implements IInvoker {
         String color = "white";
         try {
             if (server != null) {
-                server.close();
+                server.destroy();
             }
-            server = new Server(this, reader.getIp(), reader.getPort());
+            server = new Server(reader.getIp(), reader.getPort(),
+                    new QLogDataTransformerFactory());
             allHTML += "Restarted server at: " + reader.getIp() + ":"
                     + reader.getPort();
         } catch (BindException e) {
             e.printStackTrace();
             allHTML += "Could not restart the server: " + e.getMessage();
         } finally {
-            allHTML+="<br/>";
+            allHTML += "<br/>";
             setInnerHtml(allHTML);
         }
     }
@@ -133,7 +139,7 @@ public class QLogView extends ViewPart implements IInvoker {
             public void run() {
                 tableBuilder.clear();
                 allHTML = "";
-                browser.setText(allHTML + TableBuilder.tableWith("", "white"));
+                browser.setText(allHTML + tableBuilder.buildHTML("", "white"));
                 scrollDown();
             }
         };
@@ -198,7 +204,9 @@ public class QLogView extends ViewPart implements IInvoker {
         final String newMsg = tableBuilder.buildHTML(color, message);
         allHTML += newMsg;
         final String newHTML = allHTML;
-        if (newMsg == null) { return; }
+        if (newMsg == null) {
+            return;
+        }
         set(newHTML);
     }
 
@@ -230,11 +238,20 @@ public class QLogView extends ViewPart implements IInvoker {
     @Override
     public void dispose() {
         if (server != null) {
-            server.close();
+            server.destroy();
         }
         super.dispose();
     }
 
     @Override
     public void setFocus() {}
+
+    @Override
+    public void onEvent(IEvent event, IListener listener) {
+        String type = event.getType();
+        IDistributor source = event.getSource();
+        System.out.println(String.format(
+                "Recieved event type %s from distributor %s", type, source));
+
+    }
 }
