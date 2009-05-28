@@ -2,9 +2,9 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/de.quui.uils"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/de.quui.server"/>
-	<classpathentry kind="lib" path="/de.quui.uils/dependencies/jdom.jar"/>
-	<classpathentry kind="lib" path="/de.quui.uils/dependencies/log4j-1.2.15.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/com.quui.utils"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/com.quui.server"/>
+	<classpathentry kind="lib" path="/com.quui.utils/dependencies/jdom.jar"/>
+	<classpathentry kind="lib" path="/com.quui.utils/dependencies/log4j-1.2.15.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
