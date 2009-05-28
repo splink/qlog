@@ -112,11 +112,13 @@ public class Client extends Thread implements IClient {
 	 * Shuts down the thread and cleans up used resources
 	 */
 	public void destroy() {
-		System.out.println("shutting down client: "+getClientId());
-		running = false;
-		_server.removeClient(this);
-		_server = null;
-		_input = null;
-		_output = null;
+		if(running) {
+			System.out.println("shutting down client: "+getClientId());
+			running = false;
+			_server.removeClient(this);
+			_server = null;
+			_input = null;
+			_output = null;
+		}
 	}
 }
