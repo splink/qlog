@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<properties>
+	<ip>127.0.0.1</ip>
+	<port>6666</port>
+	<window>
+		<x>1</x>
+		<y>8</y>
+		<width>761</width>
+		<height>452</height>
+		<fontsize>11</fontsize>
+	</window>
+	
+	<settings>
+		<clearonconnect>true</clearonconnect>
+		<alwaysontop>false</alwaysontop>
+		<!-- scrolllock's current value isn't saved as the other properties are when QLog is shut down -->
+		<scrolllock>false</scrolllock>
+	</settings>
+</properties>
