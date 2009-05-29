@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<project name="com.quui.utils" basedir="../" default="jar">
+	
+	<property name="version" value="0.1.0"/>
+    <property name="src" value="src"/>
+	<property name="deploy" value="deploy"/>
+    <property name="classes" value="${deploy}/classes"/>
+	<property name="dependencies" value="dependencies"/>
+	<property name="jar" value="${deploy}/${ant.project.name}-${version}.jar"/>
+
+    <target name="clean" description="Delete all generated files">
+        <delete dir="${classes}" failonerror="false"/>
+        <delete file="${jar}"/>
+    </target>
+
+    <target name="compile" description="Compiles the jar">
+        <mkdir dir="${classes}"/>
+		
+		<javac srcdir="${src}" destdir="${classes}" >
+			<classpath>
+				<fileset dir="${dependencies}" includes="*.jar" />
+			</classpath>
+		</javac>
+	 </target>
+
+	<target name="jar" description="JARs the Task" depends="clean, compile">
+		<jar destfile="${jar}">
+			<zipfileset dir="${classes}" prefix="" />
+		</jar>
+		 <delete dir="${classes}" failonerror="false"/>
+	</target>
+
+
+</project>
