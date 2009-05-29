@@ -5,4 +5,4 @@ Bundle-SymbolicName: com.quui.server
 Bundle-Version: 0.0.0
 Export-Package: com.quui.server
 Bundle-Vendor: Quui Software
-Require-Bundle: com.quui.utils;bundle-version="0.0.0"
+Require-Bundle: com.quui.utils;bundle-version="0.0.0";visibility:=reexport

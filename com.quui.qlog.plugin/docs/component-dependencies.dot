@@ -1,0 +1,17 @@
+digraph deps{
+
+	node[shape=box]
+	edge[label="depends\non"]
+	
+	utils[label="com.quui.utils"]
+	server[label="com.quui.server"]
+	ui[label="com.quui.qlog.ui"]
+	swing[label="com.quui.qlog.swing"]
+	eclipse[label="com.quui.qlog.plugin"]
+	
+	eclipse->ui
+	swing->ui
+	ui->server
+	server->utils
+
+}

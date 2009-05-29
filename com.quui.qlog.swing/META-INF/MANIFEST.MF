@@ -12,6 +12,4 @@ Export-Package: com.quui.qlog.swing,
  com.quui.qlog.swing.gui.popup,
  com.quui.qlog.swing.gui.tab,
  com.quui.qlog.swing.properties
-Require-Bundle: com.quui.server;bundle-version="0.0.0",
- com.quui.utils;bundle-version="0.0.0",
- com.quui.qlog.ui;bundle-version="0.0.0"
+Require-Bundle: com.quui.qlog.ui;bundle-version="0.0.0"

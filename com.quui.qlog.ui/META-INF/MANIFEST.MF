@@ -5,7 +5,6 @@ Bundle-SymbolicName: com.quui.qlog.ui
 Bundle-Version: 0.0.0
 Bundle-Vendor: Quui Software
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Require-Bundle: com.quui.utils;bundle-version="0.0.0",
- com.quui.server
+Require-Bundle: com.quui.server;visibility:=reexport
 Export-Package: com.quui.qlog.ui,
  com.quui.qlog.ui.data
