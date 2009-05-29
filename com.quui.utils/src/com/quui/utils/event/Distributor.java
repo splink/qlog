@@ -4,6 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
+/**
+ * The <code>IDistributor</code> default implementation
+ * 
+ * @author maxmc
+ */
 public class Distributor implements IDistributor {
 	private List<ListenerContainer> _eventListeners;
 
@@ -11,6 +16,9 @@ public class Distributor implements IDistributor {
 		_eventListeners = new ArrayList<ListenerContainer>();
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public void register(String type, IListener eventListener) {
 		if (!contains(eventListener, type)) {
 			System.out.println(eventListener + " register for " + type);
@@ -28,6 +36,9 @@ public class Distributor implements IDistributor {
 		return false;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public void unregister(String type, IListener eventListener) {
 		for (int i = 0; i < _eventListeners.size(); i++) {
 			ListenerContainer container = _eventListeners.get(i);
@@ -38,11 +49,14 @@ public class Distributor implements IDistributor {
 		}
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public void distribute(IEvent eventObject) {
 		Vector<IListener> eventListeners = getEventListeners(eventObject.getType());
 		for (int i = 0; i < eventListeners.size(); i++) {
 			IListener listener = eventListeners.get(i);
-			listener.onEvent(eventObject, listener);
+			listener.onEvent(eventObject);
 		}
 	}
 
@@ -58,7 +72,10 @@ public class Distributor implements IDistributor {
 		return r;
 	}
 
-	public void finalize() {
+	/**
+	 * {@inheritDoc}
+	 */
+	public void destroy() {
 		_eventListeners = new ArrayList<ListenerContainer>();
 	}
 }

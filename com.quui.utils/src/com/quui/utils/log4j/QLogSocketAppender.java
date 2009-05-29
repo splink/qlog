@@ -14,8 +14,7 @@ import org.apache.log4j.spi.LoggingEvent;
  * 
  * @author Max Kugland
  */
-public class QLogSocketAppender extends AppenderSkeleton
-{
+public class QLogSocketAppender extends AppenderSkeleton {
 	private String _host;
 	private int _port;
 	private BufferedReader _reader;
@@ -23,8 +22,7 @@ public class QLogSocketAppender extends AppenderSkeleton
 	private PrintWriter _sender;
 	private String _tabName;
 
-	public QLogSocketAppender(String host, int port, String tabName)
-	{
+	public QLogSocketAppender(String host, int port, String tabName) {
 		_host = host;
 		_port = port;
 		_tabName = tabName;
@@ -34,123 +32,84 @@ public class QLogSocketAppender extends AppenderSkeleton
 		sendLoginMsg();
 	}
 
-	private void sendLoginMsg()
-	{
+	private void sendLoginMsg() {
 		send("<login><name>" + _tabName + "</name></login>");
 	}
 
-	private void setReadWrite()
-	{
-		try
-		{
-			if(_socket != null)
-			{
+	private void setReadWrite() {
+		try {
+			if (_socket != null) {
 				_sender = new PrintWriter(_socket.getOutputStream(), true);
 			}
-		}
-		catch (IOException e1)
-		{
+		} catch (IOException e1) {
 		}
 	}
 
-	private void connect()
-	{
-		try
-		{
+	private void connect() {
+		try {
 			_socket = new Socket(_host, _port);
-		}
-		catch (UnknownHostException e)
-		{
-		}
-		catch (IOException e)
-		{
+		} catch (UnknownHostException e) {
+		} catch (IOException e) {
 		}
 	}
 
 	@Override
-	protected void append(LoggingEvent event)
-	{
+	protected void append(LoggingEvent event) {
 		String classInfo = event.getLocationInformation().getClassName() + " "
 				+ event.getLocationInformation().getMethodName() + " "
 				+ event.getLocationInformation().getLineNumber();
 
-		String msg = buildMessage(event.getLevel().toString(), classInfo
-				+ " >> " + event.getMessage());
+		String msg = buildMessage(event.getLevel().toString(), classInfo + " >> "
+				+ event.getMessage());
 
 		send(msg);
 	}
 
-	private void send(String msg)
-	{
-		if(_sender != null)
-		{
+	private void send(String msg) {
+		if (_sender != null) {
 			_sender.print(new String(msg + "\u0000"));
 			_sender.flush();
 		}
 	}
 
-	private String buildMessage(String level, String msg)
-	{
-		return "<log><color>" + getColorForLevel(level)
-				+ "</color><msg><![CDATA[" + msg + "]]></msg></log>";
+	private String buildMessage(String level, String msg) {
+		return "<log><color>" + getColorForLevel(level) + "</color><msg><![CDATA[" + msg
+				+ "]]></msg></log>";
 	}
 
-	private String getColorForLevel(String level)
-	{
-		if (level.equals("GARBAGE"))
-		{
+	private String getColorForLevel(String level) {
+		if (level.equals("GARBAGE")) {
 			return "#999900";
-		}
-		else if (level.equals("FATAL"))
-		{
+		} else if (level.equals("FATAL")) {
 			return "#FFFF00";
-		}
-		else if (level.equals("ERROR"))
-		{
+		} else if (level.equals("ERROR")) {
 			return "#FF0000";
-		}
-		else if (level.equals("WARN"))
-		{
+		} else if (level.equals("WARN")) {
 			return "#FFFFCC";
-		}
-		else if (level.equals("INFO"))
-		{
+		} else if (level.equals("INFO")) {
 			return "#CCFFFF";
-		}
-		else if (level.equals("DEBUG"))
-		{
+		} else if (level.equals("DEBUG")) {
 			return "#00FF00";
-		}
-		else if (level.equals("TRACE"))
-		{
+		} else if (level.equals("TRACE")) {
 			return "#FFFFFF";
-		}
-		else
+		} else
 			return "#FFFFFF";
 	}
 
-	public void close()
-	{
-		try
-		{
+	public void close() {
+		try {
 			_reader.close();
-		}
-		catch (IOException e)
-		{
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		try
-		{
+		try {
 			_socket.close();
-		}
-		catch (IOException e)
-		{
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 
-	public boolean requiresLayout()
-	{
+	public boolean requiresLayout() {
 		return false;
 	}
 }

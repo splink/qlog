@@ -4,30 +4,23 @@ import org.apache.log4j.ConsoleAppender;
 import org.apache.log4j.Logger;
 import org.apache.log4j.SimpleLayout;
 
-public class QLogAppenderTest
-{
+public class QLogAppenderTest {
 	private static Logger logger = Logger.getRootLogger();
 
-	public static void main(String[] args)
-	{
+	public static void main(String[] args) {
 		new QLogAppenderTest();
 	}
 
-	public QLogAppenderTest()
-	{
-		try
-		{
+	public QLogAppenderTest() {
+		try {
 			SimpleLayout layout = new SimpleLayout();
 			ConsoleAppender consoleAppender = new ConsoleAppender(layout);
-			QLogSocketAppender qlogAppender = new QLogSocketAppender(
-					"localhost", 6666, "QLog4j");
+			QLogSocketAppender qlogAppender = new QLogSocketAppender("localhost", 6666, "QLog4j");
 			logger.addAppender(qlogAppender);
 			logger.addAppender(consoleAppender);
 			// ALL | DEBUG | INFO | WARN | ERROR | FATAL | OFF:
-//			logger.setLevel(Level.WARN);
-		}
-		catch (Exception ex)
-		{
+			// logger.setLevel(Level.WARN);
+		} catch (Exception ex) {
 			System.out.println(ex);
 		}
 		logger.debug("My Debug message");

@@ -5,31 +5,37 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
-public class FileSaver
-{
+/**
+ * Simply writes a file to disk
+ * 
+ * @author maxmc
+ * 
+ */
+public class FileSaver {
 	private String _content;
 	private String _filename;
 
-	public FileSaver(String content, String filename)
-	{
+	/**
+	 * @param content
+	 *            the content of the file
+	 * @param filename
+	 *            the fully qualified filename
+	 */
+	public FileSaver(String content, String filename) {
 		_content = content;
 		_filename = filename;
-		
+
 		writeToFile();
 	}
-	
-	private void writeToFile()
-	{
+
+	private void writeToFile() {
 		File f = new File(_filename);
-		
-		try
-		{
+
+		try {
 			BufferedWriter writer = new BufferedWriter(new FileWriter(f));
 			writer.write(_content.toCharArray());
 			writer.close();
-		}
-		catch (IOException e)
-		{
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
