@@ -14,6 +14,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
+import com.quui.qlog.core.PropertiesReader;
 import com.quui.qlog.swing.gui.popup.FilterPopUp;
 import com.quui.qlog.swing.gui.popup.FontSizePopUp;
 import com.quui.qlog.swing.gui.popup.IPopUp;
@@ -22,7 +23,6 @@ import com.quui.qlog.swing.gui.tab.ITab;
 import com.quui.qlog.swing.gui.tab.Tab;
 import com.quui.qlog.swing.gui.tab.TabController;
 import com.quui.qlog.swing.gui.tab.TabControllerEvent;
-import com.quui.qlog.ui.PropertiesReader;
 import com.quui.utils.event.IEvent;
 import com.quui.utils.event.IListener;
 

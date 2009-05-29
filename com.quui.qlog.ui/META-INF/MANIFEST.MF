@@ -1,10 +1,10 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Quui Log UI
-Bundle-SymbolicName: com.quui.qlog.ui
+Bundle-Name: Quui Log Core
+Bundle-SymbolicName: com.quui.qlog.core
 Bundle-Version: 0.0.0
 Bundle-Vendor: Quui Software
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Require-Bundle: com.quui.server;visibility:=reexport
-Export-Package: com.quui.qlog.ui,
- com.quui.qlog.ui.data
+Export-Package: com.quui.qlog.core,
+ com.quui.qlog.core.data

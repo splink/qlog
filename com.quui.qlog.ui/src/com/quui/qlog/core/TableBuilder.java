@@ -1,4 +1,4 @@
-package com.quui.qlog.ui;
+package com.quui.qlog.core;
 
 import java.util.regex.Pattern;
 

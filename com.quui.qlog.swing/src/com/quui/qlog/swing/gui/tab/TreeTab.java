@@ -15,8 +15,8 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import com.quui.qlog.core.PropertiesReader;
 import com.quui.qlog.swing.gui.Window;
-import com.quui.qlog.ui.PropertiesReader;
 
 
 public class TreeTab implements ITreeTab {

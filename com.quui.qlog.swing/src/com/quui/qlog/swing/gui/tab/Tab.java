@@ -10,11 +10,11 @@ import javax.swing.JScrollPane;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.html.HTMLEditorKit;
 
+import com.quui.qlog.core.Filter;
+import com.quui.qlog.core.PropertiesReader;
+import com.quui.qlog.core.TableBuilder;
 import com.quui.qlog.swing.gui.Window;
 import com.quui.qlog.swing.gui.popup.FontSizePopUp;
-import com.quui.qlog.ui.Filter;
-import com.quui.qlog.ui.PropertiesReader;
-import com.quui.qlog.ui.TableBuilder;
 import com.quui.utils.util.IDestroyable;
 
 

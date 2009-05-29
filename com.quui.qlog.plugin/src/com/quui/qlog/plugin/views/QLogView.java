@@ -14,10 +14,10 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.part.ViewPart;
 
+import com.quui.qlog.core.Filter;
+import com.quui.qlog.core.PropertiesReader;
+import com.quui.qlog.core.TableBuilder;
 import com.quui.qlog.plugin.Activator;
-import com.quui.qlog.ui.Filter;
-import com.quui.qlog.ui.PropertiesReader;
-import com.quui.qlog.ui.TableBuilder;
 import com.quui.server.Server;
 
 /**

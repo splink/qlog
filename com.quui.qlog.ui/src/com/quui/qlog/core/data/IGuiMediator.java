@@ -1,4 +1,4 @@
-package com.quui.qlog.ui.data;
+package com.quui.qlog.core.data;
 
 import org.w3c.dom.Document;
 

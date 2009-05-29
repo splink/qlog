@@ -5,13 +5,13 @@ digraph deps{
 	
 	utils[label="com.quui.utils"]
 	server[label="com.quui.server"]
-	ui[label="com.quui.qlog.ui"]
+	core[label="com.quui.qlog.core"]
 	swing[label="com.quui.qlog.swing"]
 	eclipse[label="com.quui.qlog.plugin"]
 	
-	eclipse->ui
-	swing->ui
-	ui->server
+	eclipse->core
+	swing->core
+	core->server
 	server->utils
 
 }

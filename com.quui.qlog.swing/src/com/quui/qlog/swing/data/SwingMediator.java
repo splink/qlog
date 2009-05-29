@@ -2,10 +2,10 @@ package com.quui.qlog.swing.data;
 
 import org.w3c.dom.Document;
 
+import com.quui.qlog.core.data.IGuiMediator;
 import com.quui.qlog.swing.gui.tab.ITab;
 import com.quui.qlog.swing.gui.tab.ITreeTab;
 import com.quui.qlog.swing.gui.tab.TabFactory;
-import com.quui.qlog.ui.data.IGuiMediator;
 import com.quui.utils.util.IDestroyable;
 
 

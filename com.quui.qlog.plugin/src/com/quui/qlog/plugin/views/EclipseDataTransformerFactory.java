@@ -1,7 +1,7 @@
 package com.quui.qlog.plugin.views;
 
-import com.quui.qlog.ui.data.IGuiMediator;
-import com.quui.qlog.ui.data.QLogDataTransformer;
+import com.quui.qlog.core.data.IGuiMediator;
+import com.quui.qlog.core.data.QLogDataTransformer;
 import com.quui.server.IDataTransformer;
 import com.quui.server.IDataTransformerFactory;
 
