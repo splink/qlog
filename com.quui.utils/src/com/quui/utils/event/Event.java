@@ -10,7 +10,7 @@ package com.quui.utils.event;
  */
 public class Event implements IEvent {
 	private IDistributor _source;
-	private String _type;
+	private Enum<? extends IEventType> _type;
 
 	/**
 	 * @param source
@@ -18,7 +18,7 @@ public class Event implements IEvent {
 	 * @param type
 	 *            the type of the event
 	 */
-	public Event(IDistributor source, String type) {
+	public Event(IDistributor source, Enum<? extends IEventType> type) {
 		_source = source;
 		_type = type;
 	}
@@ -26,7 +26,7 @@ public class Event implements IEvent {
 	/**
 	 * {@inheritDoc}
 	 */
-	public String getType() {
+	public Enum<? extends IEventType> getType() {
 		return _type;
 	}
 

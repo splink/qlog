@@ -7,7 +7,7 @@ package com.quui.utils.event;
  * 
  */
 public class ListenerContainer {
-	private String _type;
+	private Enum<? extends IEventType> _type;
 	private IListener _eventlistener;
 
 	/**
@@ -16,7 +16,7 @@ public class ListenerContainer {
 	 * @param eventlistener
 	 *            the listener
 	 */
-	public ListenerContainer(String type, IListener eventlistener) {
+	public ListenerContainer(Enum<? extends IEventType> type, IListener eventlistener) {
 		_type = type;
 		_eventlistener = eventlistener;
 	}
@@ -24,7 +24,7 @@ public class ListenerContainer {
 	/**
 	 * @return the listeners type
 	 */
-	public String getType() {
+	public Enum<? extends IEventType> getType() {
 		return _type;
 	}
 

@@ -19,14 +19,14 @@ public class Distributor implements IDistributor {
 	/**
 	 * {@inheritDoc}
 	 */
-	public void register(String type, IListener eventListener) {
+	public void register(Enum<? extends IEventType> type, IListener eventListener) {
 		if (!contains(eventListener, type)) {
 			System.out.println(eventListener + " register for " + type);
 			_eventListeners.add(new ListenerContainer(type, eventListener));
 		}
 	}
 
-	private boolean contains(IListener eventListener, String type) {
+	private boolean contains(IListener eventListener, Enum<? extends IEventType> type) {
 		for (ListenerContainer container : _eventListeners) {
 			if (container.getEventListener().equals(eventListener)
 					&& container.getType().equals(type)) {
@@ -39,7 +39,7 @@ public class Distributor implements IDistributor {
 	/**
 	 * {@inheritDoc}
 	 */
-	public void unregister(String type, IListener eventListener) {
+	public void unregister(Enum<? extends IEventType> type, IListener eventListener) {
 		for (int i = 0; i < _eventListeners.size(); i++) {
 			ListenerContainer container = _eventListeners.get(i);
 			if (container.getEventListener().equals(eventListener)
@@ -60,7 +60,7 @@ public class Distributor implements IDistributor {
 		}
 	}
 
-	private Vector<IListener> getEventListeners(String type) {
+	private Vector<IListener> getEventListeners(Enum<? extends IEventType> type) {
 		Vector<IListener> r = new Vector<IListener>();
 		for (int i = 0; i < _eventListeners.size(); i++) {
 			ListenerContainer listener = _eventListeners.get(i);

@@ -22,7 +22,7 @@ public interface IDistributor extends IDestroyable {
 	 * @param listener
 	 *            the <code>IListener</code> wishing to receive <code>IEvent</code>s
 	 */
-	public void register(String type, IListener listener);
+	public void register(Enum<? extends IEventType> type, IListener listener);
 
 	/**
 	 * Unregister removes a previously registered listener.
@@ -32,7 +32,7 @@ public interface IDistributor extends IDestroyable {
 	 * @param listener
 	 *            the <code>IListener</code> to unregister
 	 */
-	public void unregister(String type, IListener listener);
+	public void unregister(Enum<? extends IEventType> type, IListener listener);
 
 	/**
 	 * Distributes an <code>IEvent</code> to all currently registered listeners for that

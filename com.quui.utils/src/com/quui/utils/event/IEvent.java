@@ -21,5 +21,5 @@ public interface IEvent {
 	 * 
 	 * @return the type of the <code>IDevent</code>
 	 */
-	public String getType();
+	public Enum<? extends IEventType> getType();
 }
