@@ -87,8 +87,8 @@ public class TabController extends Distributor implements MouseListener, ChangeL
 		int index = _tabPane.getSelectedIndex();
 		if (index != -1)
 			_tabPane.setBackgroundAt(index, Color.LIGHT_GRAY);
-
-		distribute(new TabControllerEvent(this, TabControllerEvent.TAB_CHANGED));
+		
+		distribute(new TabControllerEvent(this, TabControllerEvent.Tab.TAB_CHANGED));
 	}
 
 	public void mouseClicked(MouseEvent e) {
