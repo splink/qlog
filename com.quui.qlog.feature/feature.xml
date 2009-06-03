@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
       id="com.quui.features.qlog"
-      label="qLog4Eclipse"
-      version="0.0.5"
-      provider-name="quui.com">
+      label="qLog4eclipse"
+      version="0.1.5"
+      provider-name="Quui Software">
 
    <description>
       Eclipse version of the qLog logging visualization tool.
@@ -83,7 +83,7 @@ This Agreement is governed by the laws of the State of New York and the intellec
    </license>
 
    <plugin
-         id="com.quui.qlog.branch"
+         id="com.quui.qlog.core"
          download-size="0"
          install-size="0"
          version="0.0.0"
@@ -95,5 +95,18 @@ This Agreement is governed by the laws of the State of New York and the intellec
          install-size="0"
          version="0.0.0"
          unpack="false"/>
+
+   <plugin
+         id="com.quui.server"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="com.quui.utils"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"/>
 
 </feature>
