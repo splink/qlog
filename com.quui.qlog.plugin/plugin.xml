@@ -9,11 +9,18 @@
             id="com.quui.qlog.plugin">
       </category>
       <view
-            name="qLog"
-            icon="icons/category.gif"
+            name="qLogHTML"
+            icon="icons/icon16x16.gif"
             category="com.quui.qlog.plugin"
-            class="com.quui.qlog.plugin.views.QLogView"
+            class="com.quui.qlog.plugin.views.QuuiLogView"
             id="com.quui.qlog.plugin.views.QLogView">
+      </view>
+      <view
+            category="com.quui.qlog.plugin"
+            class="com.quui.qlog.plugin.views.QuuiLogTableView"
+            icon="icons/category.gif"
+            id="com.quui.qlog.plugin.views.QuuiLogTableView"
+            name="qLogTable">
       </view>
    </extension>
    <extension

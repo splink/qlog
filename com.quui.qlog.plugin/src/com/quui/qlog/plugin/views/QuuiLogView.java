@@ -24,7 +24,7 @@ import com.quui.server.Server;
  * View to display QLog logging messages.
  * @author Fabian Steeg
  */
-public final class QLogView extends ViewPart {
+public final class QuuiLogView extends ViewPart {
     private static final String SCRIPT_SCROLL = "window.scrollTo(0,100000);";
     private Action clearAction;
     private Action filterAction;
@@ -40,7 +40,7 @@ public final class QLogView extends ViewPart {
     /**
      * Create a qLog view using the default configuration file.
      */
-    public QLogView() {
+    public QuuiLogView() {
         String loc = Activator.getFileLocationInPlugin("config.xml");
         reader = new PropertiesReader(loc);
         reader.initialize();
@@ -133,7 +133,7 @@ public final class QLogView extends ViewPart {
     public void createPartControl(final Composite parent) {
         makeActions();
         contributeToActionBars();
-        browser = new Browser(parent, SWT.MOZILLA);
+        browser = new Browser(parent, SWT.NONE);
         tableBuilder = new TableBuilder(12);
         allHtml = tableBuilder.getCss() + allHtml;
         startServer();

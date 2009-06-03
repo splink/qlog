@@ -6,18 +6,18 @@ import com.quui.qlog.core.data.IGuiMediator;
 import com.quui.utils.util.IDestroyable;
 
 /**
- * Mediator for the Eclipse view.
+ * Mediator for the experimental table-based Eclipse view.
  * @author Fabian Steeg (fsteeg)
  */
-public final class EclipseMediator implements IGuiMediator {
+public final class EclipseTableMediator implements IGuiMediator {
 
-    private QuuiLogView view;
+    private QuuiLogTableView view;
 
     /**
-     * @param logView The view to update depending on incoming messages
+     * @param viewer The view to update depending on incoming messages
      */
-    public EclipseMediator(final QuuiLogView logView) {
-        this.view = logView;
+    public EclipseTableMediator(final QuuiLogTableView view) {
+        this.view = view;
     }
 
     /**
@@ -27,9 +27,6 @@ public final class EclipseMediator implements IGuiMediator {
     @Override
     public void onCommand(final String command) {
         System.out.println("onCommand: " + command);
-        if (command.equals("clear")) {
-            view.clear();
-        }
     }
 
     /**
@@ -39,7 +36,7 @@ public final class EclipseMediator implements IGuiMediator {
      */
     @Override
     public void onMessage(final String message, final String color) {
-        view.update(message, color);
+       view.add(message,color);
     }
 
     /**
