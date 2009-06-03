@@ -5,22 +5,24 @@
    <extension
          point="org.eclipse.ui.views">
       <category
-            name="Logging"
+            name="Quui"
             id="com.quui.qlog.plugin">
       </category>
+      <!--
       <view
             name="qLogHTML"
             icon="icons/icon16x16.gif"
             category="com.quui.qlog.plugin"
-            class="com.quui.qlog.plugin.views.QuuiLogView"
+            class="com.quui.qlog.plugin.views.html.QuuiLogView"
             id="com.quui.qlog.plugin.views.QLogView">
       </view>
+      -->
       <view
             category="com.quui.qlog.plugin"
             class="com.quui.qlog.plugin.views.QuuiLogTableView"
             icon="icons/category.gif"
             id="com.quui.qlog.plugin.views.QuuiLogTableView"
-            name="qLogTable">
+            name="Quui Log">
       </view>
    </extension>
    <extension

@@ -1,4 +1,4 @@
-package com.quui.qlog.plugin.views;
+package com.quui.qlog.plugin.views.html;
 
 import org.w3c.dom.Document;
 

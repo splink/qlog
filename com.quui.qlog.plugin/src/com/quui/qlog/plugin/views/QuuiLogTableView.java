@@ -7,22 +7,22 @@ import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.dialogs.InputDialog;
-import org.eclipse.jface.viewers.ITableLabelProvider;
-import org.eclipse.jface.viewers.LabelProvider;
+import org.eclipse.jface.layout.TableColumnLayout;
+import org.eclipse.jface.viewers.CellLabelProvider;
+import org.eclipse.jface.viewers.ColumnPixelData;
+import org.eclipse.jface.viewers.ColumnWeightData;
 import org.eclipse.jface.viewers.TableViewer;
-import org.eclipse.jface.viewers.ViewerSorter;
+import org.eclipse.jface.viewers.TableViewerColumn;
+import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.jface.viewers.ViewerCell;
+import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.ui.IActionBars;
-import org.eclipse.ui.ISharedImages;
-import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
-
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import com.quui.qlog.core.Level;
 import com.quui.qlog.core.PropertiesReader;
@@ -36,130 +36,78 @@ import com.quui.server.Server;
 public final class QuuiLogTableView extends ViewPart {
     private Action clearAction;
     private Action filterAction;
+    private Action restartAction;
     private PropertiesReader reader;
     private Server server;
-    private Action restartAction;
     private boolean locked;
     private TableViewer viewer;
-
-    /**
-     * Representation of a logging message in the table.
-     * @author Fabian Steeg (fsteeg)
-     */
-    static class Message {
-        Level level;
-        Image image;
-        String message;
-
-        Message(Level level, String message) {
-            this.level = level;
-            String loc = ISharedImages.IMG_TOOL_UP;
-            // TODO would it make sense to add the icon locations to the actual
-            // enum?
-            switch (level) {
-            case INFO:
-                loc = ISharedImages.IMG_OBJS_INFO_TSK;
-                break;
-            case DEBUG:
-                loc = ISharedImages.IMG_OBJS_BKMRK_TSK;
-                break;
-            case TRACE:
-                loc = ISharedImages.IMG_TOOL_UP;
-                break;
-            case FATAL:
-                loc = ISharedImages.IMG_TOOL_UNDO;
-                break;
-            case ERROR:
-                loc = ISharedImages.IMG_OBJS_ERROR_TSK;
-                break;
-            case WARN:
-                loc = ISharedImages.IMG_OBJS_WARN_TSK;
-                break;
-            case GARBAGE:
-                loc = ISharedImages.IMG_TOOL_UP;
-                break;
-            }
-            this.image = PlatformUI.getWorkbench().getSharedImages().getImage(
-                    loc);
-            this.message = message;
-        }
-    }
-
-    /*
-     * The content provider class is responsible for providing objects to the
-     * view. It can wrap existing objects in adapters or simply return objects
-     * as-is. These objects may be sensitive to the current input of the view,
-     * or ignore it and always show the same content (like Task List, for
-     * example).
-     */
-
-    // static class QuuiLogContentProvider implements IStructuredContentProvider
-    // {
-    // QuuiLogMessage[] messages = new QuuiLogMessage[] { new QuuiLogMessage(
-    // Level.INFO, PlatformUI.getWorkbench().getSharedImages()
-    // .getImage(ISharedImages.IMG_OBJS_INFO_TSK),
-    // "Welcome to qlog4eclipse!") };
-    //
-    // public void inputChanged(Viewer v, Object oldInput, Object newInput) {
-    // System.out.println(String
-    // .format("Input changed for %s from %s to %s", v, oldInput,
-    // newInput));
-    // messages = (QuuiLogMessage[]) newInput;
-    // }
-    // public void dispose() {}
-    // @Override
-    // public Object[] getElements(Object parent) {
-    // return messages;
-    // }
-    // }
-    /**
-     * Provides labels in the table, for message objects.
-     * <p/>
-     * TODO: use multiple columns
-     * @author Fabian Steeg (fsteeg)
-     */
-    static class QuuiLogLabelProvider extends LabelProvider implements
-            ITableLabelProvider {
-        @Override
-        public String getColumnText(Object obj, int index) {
-            System.out.println("getImage: " + obj);
-            return getText(obj);
-        }
-        @Override
-        public String getText(Object obj) {
-            Message message = (Message) obj;
-            return message.level + " -- " + message.message;
-        }
-        @Override
-        public Image getColumnImage(Object obj, int index) {
-            System.out.println("getImage: " + obj);
-            return getImage(obj);
-        }
-        @Override
-        public Image getImage(Object obj) {
-            System.out.println("getImage: " + obj);
-            return ((Message) obj).image;
-        }
-    }
-
-    static class NameSorter extends ViewerSorter {}
 
     /**
      * {@inheritDoc}
      * @see org.eclipse.ui.part.WorkbenchPart#createPartControl(org.eclipse.swt.widgets.Composite)
      */
     public void createPartControl(final Composite parent) {
-
-        viewer = new TableViewer(parent, SWT.MULTI | SWT.H_SCROLL
-                | SWT.V_SCROLL | SWT.BORDER);
-        // viewer.setContentProvider(new QuuiLogContentProvider());
-        viewer.setLabelProvider(new QuuiLogLabelProvider());
-        // viewer.setSorter(new NameSorter());
-        // viewer.setInput(getViewSite());
-
+        Composite tableComposite = new Composite(parent, SWT.NONE);
+        TableColumnLayout tableColumnLayout = new TableColumnLayout();
+        tableComposite.setLayout(tableColumnLayout);
+        viewer = new TableViewer(tableComposite, SWT.BORDER
+                | SWT.FULL_SELECTION);
+        viewer.getTable().setHeaderVisible(true);
+        viewer.getTable().setLinesVisible(true);
+        addIconColumn(tableColumnLayout);
+        addLevelColumn(tableColumnLayout);
+        addMessageColumn(tableColumnLayout);
         makeActions();
         contributeToActionBars();
         createServer();
+    }
+
+    private void addMessageColumn(final TableColumnLayout tableColumnLayout) {
+        TableViewerColumn viewerMessageColumn = new TableViewerColumn(viewer,
+                SWT.NONE);
+        viewerMessageColumn.getColumn().setText("Message");
+        tableColumnLayout.setColumnData(viewerMessageColumn.getColumn(),
+                new ColumnWeightData(85, 200, true));
+        viewerMessageColumn.setLabelProvider(new CellLabelProvider() {
+            @Override
+            public void update(final ViewerCell cell) {
+                QuuiLogMessage message = (QuuiLogMessage) cell.getElement();
+                cell.setText(message.message);
+                cell.setBackground(message.color);
+            }
+        });
+    }
+
+    private void addLevelColumn(final TableColumnLayout tableColumnLayout) {
+        TableViewerColumn viewerNameColumn = new TableViewerColumn(viewer,
+                SWT.NONE);
+        viewerNameColumn.getColumn().setText("Level");
+        tableColumnLayout.setColumnData(viewerNameColumn.getColumn(),
+                new ColumnPixelData(50));
+        viewerNameColumn.setLabelProvider(new CellLabelProvider() {
+
+            @Override
+            public void update(final ViewerCell cell) {
+                QuuiLogMessage message = (QuuiLogMessage) cell.getElement();
+                cell.setText(message.level.toString());
+            }
+
+        });
+    }
+
+    private void addIconColumn(final TableColumnLayout tableColumnLayout) {
+        TableViewerColumn viewerIconColumn = new TableViewerColumn(viewer,
+                SWT.NONE);
+        viewerIconColumn.getColumn().setText("");
+        tableColumnLayout.setColumnData(viewerIconColumn.getColumn(),
+                new ColumnPixelData(30));
+        viewerIconColumn.setLabelProvider(new CellLabelProvider() {
+            @Override
+            public void update(final ViewerCell cell) {
+                QuuiLogMessage message = (QuuiLogMessage) cell.getElement();
+                cell.setImage(message.image);
+            }
+        });
     }
 
     /**
@@ -185,17 +133,26 @@ public final class QuuiLogTableView extends ViewPart {
     }
 
     private void makeActions() {
+        buildClearAction();
+        buildRestartAction();
+        buildFilterAction();
+
+    }
+
+    private void buildClearAction() {
         clearAction = new Action() {
             public void run() {
                 viewer.getTable().clearAll();
+                viewer.refresh();
             }
         };
         clearAction.setText("Clear");
         clearAction.setToolTipText("Clear the Log Outputs");
         clearAction.setImageDescriptor(Activator
                 .getImageDescriptor("icons/clear.gif"));
-        // TODO implement for table, content provider etc.
-        clearAction.setEnabled(false);
+    }
+
+    private void buildRestartAction() {
         restartAction = new Action() {
             public void run() {
                 createServer();
@@ -205,23 +162,33 @@ public final class QuuiLogTableView extends ViewPart {
         restartAction.setToolTipText("Restart the Log Server");
         restartAction.setImageDescriptor(Activator
                 .getImageDescriptor("icons/update.gif"));
-        // TODO implement for table, content provider etc.
-        restartAction.setEnabled(false);
+    }
+
+    private void buildFilterAction() {
         filterAction = new Action() {
             public void run() {
                 InputDialog d = new InputDialog(getSite().getShell(), "Filter",
                         "Filter", "", null);
                 d.open();
-                String filter = d.getValue();
-                throw new NotImplementedException();
+                final String filter = d.getValue();
+                ViewerFilter searchFilter = new ViewerFilter() {
+                    @Override
+                    public boolean select(final Viewer viewer,
+                            final Object parentElement, final Object element) {
+                        QuuiLogMessage message = (QuuiLogMessage) element;
+                        String content = message.message.toLowerCase() + " "
+                                + message.level.toString().toLowerCase();
+                        return filter.trim().equals("")
+                                || content.contains(filter.toLowerCase());
+                    }
+                };
+                viewer.setFilters(new ViewerFilter[] { searchFilter });
             }
         };
         filterAction.setText("Filter");
         filterAction.setToolTipText("Filter the Messages");
         filterAction.setImageDescriptor(Activator
                 .getImageDescriptor("icons/search.gif"));
-        // TODO implement for table, content provider etc.
-        filterAction.setEnabled(false);
     }
 
     /**
@@ -287,7 +254,11 @@ public final class QuuiLogTableView extends ViewPart {
         }
     }
 
-    public void add(final String message, String color) {
+    /**
+     * @param message The message to add
+     * @param color The message color
+     */
+    public void add(final String message, final String color) {
         final Level level = Level.from(color); // TODO use level enum everywhere
         if (level == null) {
             throw new IllegalArgumentException(String.format(
@@ -296,10 +267,9 @@ public final class QuuiLogTableView extends ViewPart {
         // TODO use content provider instead
         Display.getDefault().asyncExec(new Runnable() {
             public void run() {
-                viewer.add(new QuuiLogTableView.Message(level, message));
+                viewer.add(new QuuiLogMessage(level, message));
                 scrollDown();
             }
         });
-
     }
 }

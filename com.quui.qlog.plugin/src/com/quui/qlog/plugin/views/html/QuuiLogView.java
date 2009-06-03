@@ -1,4 +1,4 @@
-package com.quui.qlog.plugin.views;
+package com.quui.qlog.plugin.views.html;
 
 import java.net.BindException;
 
@@ -18,6 +18,7 @@ import com.quui.qlog.core.Filter;
 import com.quui.qlog.core.PropertiesReader;
 import com.quui.qlog.core.TableBuilder;
 import com.quui.qlog.plugin.Activator;
+import com.quui.qlog.plugin.views.EclipseDataTransformerFactory;
 import com.quui.server.Server;
 
 /**
