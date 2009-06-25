@@ -2,7 +2,7 @@
 <feature
       id="com.quui.features.qlog"
       label="qLog4eclipse"
-      version="0.1.5"
+      version="0.2.1"
       provider-name="Quui Software">
 
    <description>

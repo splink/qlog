@@ -2,7 +2,8 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Quui Server
 Bundle-SymbolicName: com.quui.server
-Bundle-Version: 0.0.0
+Bundle-Version: 0.0.2
 Export-Package: com.quui.server
 Bundle-Vendor: Quui Software
 Require-Bundle: com.quui.utils;bundle-version="0.0.0";visibility:=reexport
+Bundle-RequiredExecutionEnvironment: J2SE-1.5

@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Quui Utils
 Bundle-SymbolicName: com.quui.utils
-Bundle-Version: 0.0.0
+Bundle-Version: 0.0.2
 Bundle-ClassPath: dependencies/log4j-1.2.15.jar,
  dependencies/jdom.jar,
  utils.jar,
@@ -77,3 +77,4 @@ Export-Package:
  org.junit.runners,
  org.junit.runners.model
 Bundle-Vendor: Quui Software
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
