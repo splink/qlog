@@ -24,7 +24,6 @@ public final class EclipseTableMediator implements IGuiMediator {
      * {@inheritDoc}
      * @see com.quui.qlog.swing.data.IGuiMediator#onCommand(java.lang.String)
      */
-    @Override
     public void onCommand(final String command) {
         System.out.println("onCommand: " + command);
     }
@@ -34,7 +33,6 @@ public final class EclipseTableMediator implements IGuiMediator {
      * @see com.quui.qlog.swing.data.IGuiMediator#onMessage(java.lang.String,
      *      java.lang.String)
      */
-    @Override
     public void onMessage(final String message, final String color) {
        view.add(message,color);
     }
@@ -43,28 +41,24 @@ public final class EclipseTableMediator implements IGuiMediator {
      * {@inheritDoc}
      * @see com.quui.qlog.swing.data.IGuiMediator#onLogin(java.lang.String)
      */
-    @Override
     public void onLogin(final String name) {}
 
     /**
      * {@inheritDoc}
      * @see com.quui.qlog.swing.data.IGuiMediator#onTree(org.w3c.dom.Document)
      */
-    @Override
     public void onTree(final Document doc) {}
 
     /**
      * {@inheritDoc}
      * @see com.quui.qlog.swing.data.IGuiMediator#setDataTransformer(com.quui.utils.util.IDestroyable)
      */
-    @Override
     public void setDataTransformer(final IDestroyable dataHandler) {}
 
     /**
      * {@inheritDoc}
      * @see com.quui.utils.util.IDestroyable#destroy()
      */
-    @Override
     public void destroy() {}
 
 }

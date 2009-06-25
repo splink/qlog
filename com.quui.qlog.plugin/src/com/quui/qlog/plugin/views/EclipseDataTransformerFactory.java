@@ -20,15 +20,11 @@ public final class EclipseDataTransformerFactory implements
     public EclipseDataTransformerFactory(final IGuiMediator mediator) {
         this.mediator = mediator;
     }
-    //TODO solange du nur einen viewhast funktoniert das so, aber eigentlich hat 
-    //jeder mediator seinen client und seinen view (im fall swing ein tab) 
-    // dadurch können beliebig viele tabs geöffnet sein, einer pro modul oder app
-
+    // TODO actually, every mediator should have its own client (e.g. a tab)
     /**
      * {@inheritDoc}
      * @see com.quui.server.IDataTransformerFactory#create()
      */
-    @Override
     public IDataTransformer create() {
         return new QLogDataTransformer(mediator);
     }

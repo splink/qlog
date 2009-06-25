@@ -9,7 +9,6 @@ public class QLogDataTransformerFactory implements IDataTransformerFactory{
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
 	public IDataTransformer create() {
 		return new QLogDataTransformer(new SwingMediator());
 	}
