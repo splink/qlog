@@ -7,4 +7,6 @@ Bundle-Vendor: Quui Software
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Require-Bundle: com.quui.server;visibility:=reexport
 Export-Package: com.quui.qlog.core,
- com.quui.qlog.core.data
+ com.quui.qlog.core.data,
+ com.quui.qlog.core.log4j
+Import-Package: com.quui.qlog.core.log4j
